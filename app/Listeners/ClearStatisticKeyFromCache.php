@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class ClearStatisticFromCache
+class ClearStatisticKeyFromCache
 {
     /**
      * Create the event listener.

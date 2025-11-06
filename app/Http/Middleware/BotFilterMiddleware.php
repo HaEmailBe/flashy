@@ -25,7 +25,7 @@ class BotFilterMiddleware
     private function isKnownBot(?string $userAgent): bool
     {
         if (empty($userAgent)) {
-            return false;
+            return true;
         }
 
         $badBotKeywords = [

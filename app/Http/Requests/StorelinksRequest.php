@@ -48,6 +48,7 @@ class StorelinksRequest extends FormRequest
         return [
             'target_url' => "required|url|max:255",
             'slug' => [
+                "required",
                 "unique:links,slug",
                 "max:{$this->maxLength}",
                 "regex:/^[A-Za-z0-9-]+$/",

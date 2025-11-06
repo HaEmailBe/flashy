@@ -15,7 +15,7 @@ class StatisticsApiTest extends TestCase
     /**
      * A basic feature test example.
      */
-    public function test_statistics_by_slug(): void
+    public function test_get_statistics_from_database_and_from_cache_by_slug(): void
     {
         $headers = [
             'X-Api-Key' => config('app.api_key'),
@@ -58,11 +58,29 @@ class StatisticsApiTest extends TestCase
         $response->assertSessionHas('success', true);
         $response->assertSessionHas('message', 'Link is active and exists in caching');
 
+        // Get statistics from database
         $response = $this->get("/api/links/{$this->validSlug}/stats");
 
         $response->assertStatus(200)
             ->assertJsonFragment([
                 'success' => true,
+                'id' => 1,
+                'message' => 'Get statistics from the database',
+                'target_url' => $this->validTargetUrl,
+                'hits_count' => 20,
+            ]);
+
+        $responseData = $response->json('data.formatted_ips');
+        $this->assertCount(5, $responseData);
+
+        // Get statistics from cache
+        $response = $this->get("/api/links/{$this->validSlug}/stats");
+
+        $response->assertStatus(200)
+            ->assertJsonFragment([
+                'success' => true,
+                'id' => 1,
+                'message' => 'Get statistics from the cache',
                 'target_url' => $this->validTargetUrl,
                 'hits_count' => 20,
             ]);
@@ -71,7 +89,6 @@ class StatisticsApiTest extends TestCase
         $this->assertCount(5, $responseData);
 
         $key = ":link-statistics-{$this->validSlug}";
-
         $this->assertTrue(Cache::has($key));
         sleep(61);
         $this->assertFalse(Cache::has($key));
@@ -83,7 +100,7 @@ class StatisticsApiTest extends TestCase
         $response->assertNotFound();
         $response->assertJson([
             'success' => true,
-            'message' => 'Slug not found in DB'
+            'message' => 'Slug not found in the database'
         ]);
     }
 

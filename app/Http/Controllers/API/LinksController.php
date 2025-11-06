@@ -80,7 +80,7 @@ class LinksController extends Controller
     {
         if (empty($slug)) {
             return response()->json([
-                'success' => true,
+                'success' => false,
                 'error' => 'Bad Request',
                 'message' => "Required parameter 'slug' is missing or empty",
             ], 400);
@@ -111,9 +111,9 @@ class LinksController extends Controller
             if ($dbLink) {
                 if (!$dbLink->is_active) {
                     return response()->json([
-                        'success' => true,
-                        'message' => 'No redirect, Link is not active.'
-                    ], 200);
+                        'success' => false,
+                        'message' => 'No redirect, Link is not active'
+                    ], 404);
                 } elseif ($dbLink->is_active) {
                     $key = ":link-{$dbLink->slug}";
                     Cache::put(
@@ -130,7 +130,7 @@ class LinksController extends Controller
 
                     return redirect()->away($dbLink->target_url)->with([
                         'success' => true,
-                        'message' => 'Link is active and not found in caching',
+                        'message' => 'Link is active but not found in cache',
                     ]);
                 }
             }
@@ -138,7 +138,7 @@ class LinksController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Slug not found in DB',
+            'message' => 'Slug not found in the database',
         ], 404);
     }
 
@@ -146,13 +146,22 @@ class LinksController extends Controller
     {
         if (empty($slug)) {
             return response()->json([
-                'success' => true,
-                'error' => 'Bad Request',
+                'success' => false,
                 'message' => "Required parameter 'slug' is missing or empty",
             ], 400);
         }
 
         try {
+            $statistics = Cache::get(":link-statistics-{$slug}");
+
+            if ($statistics) {
+                return response()->json([
+                    'success' => true,
+                    'message' => "Get statistics from the cache",
+                    'data' => $statistics
+                ]);
+            }
+
             // DB::enableQueryLog();
             $link = Links::select('id', 'target_url')->where('slug', $slug)->withCount('hits')->with('lastHits')->first();
             // dd(DB::getQueryLog());
@@ -163,6 +172,7 @@ class LinksController extends Controller
                 $key = ":link-statistics-{$slug}";
 
                 $data = [
+                    'id' => $link->id,
                     'target_url' => $link->target_url,
                     'hits_count' => $link->hits_count,
                     'formatted_ips' => $formattedIp
@@ -176,13 +186,14 @@ class LinksController extends Controller
 
                 return response()->json([
                     'success' => true,
+                    'message' => "Get statistics from the database",
                     'data' => $data
                 ]);
 
             } else {
                 return response()->json([
                     'success' => true,
-                    'message' => 'Slug not found in DB',
+                    'message' => 'Slug not found in the database',
                 ], 404);
             }
             ;

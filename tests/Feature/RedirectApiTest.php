@@ -100,7 +100,7 @@ class RedirectApiTest extends TestCase
         $response->assertStatus(302);
         $response->assertRedirect($this->validTargetUrl);
         $response->assertSessionHas('success', true);
-        $response->assertSessionHas('message', 'Link is active and not found in caching');
+        $response->assertSessionHas('message', 'Link is active but not found in cache');
     }
 
     public function test_no_redirect_when_link_is_not_active(): void
@@ -138,9 +138,9 @@ class RedirectApiTest extends TestCase
 
         $response = $this->get("/api/r/{$this->validSlug}");
 
-        $response->assertStatus(200)
+        $response->assertStatus(404)
             ->assertJsonFragment([
-                'success' => true,
+                'success' => false,
                 'message' => 'No redirect, Link is not active.',
             ]);
     }
@@ -167,7 +167,7 @@ class RedirectApiTest extends TestCase
 
         $response->assertJson([
             'success' => true,
-            'message' => 'Slug not found in DB'
+            'message' => 'Slug not found in the database'
         ]);
     }
 
