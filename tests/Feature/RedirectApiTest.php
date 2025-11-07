@@ -141,7 +141,7 @@ class RedirectApiTest extends TestCase
         $response->assertStatus(404)
             ->assertJsonFragment([
                 'success' => false,
-                'message' => 'No redirect, Link is not active.',
+                'message' => 'No redirect, Link is not active',
             ]);
     }
 

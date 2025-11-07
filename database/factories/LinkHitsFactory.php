@@ -6,7 +6,7 @@ use App\Models\Links;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\link_hits>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\LinkHits>
  */
 class LinkHitsFactory extends Factory
 {
