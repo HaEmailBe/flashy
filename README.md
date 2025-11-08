@@ -145,6 +145,21 @@
                     - If found: cache for 60s (TTL), return HTTP 200 with statistics
                     - If not found: return HTTP 404
 
+    - How to toggle is_active value
+        1. Request:
+            - URL: /links
+            - Method: PUT
+
+        1. Response: - 200 - created [
+              'success' => true,
+              'message' => "Link updated successfully",
+              'data' => $data
+              ]
+            - 404 - Not Found [
+                'success' => false,
+                'message' => 'No query results for model [App\Models\Links].'
+              ]              
+
 1. Testing
 
     - Use two factories for testing, LinksFactory and LinkHitsFactory
@@ -181,7 +196,7 @@
         - Conditional execution - Listeners can decide whether to execute based on event data
         - Team collaboration - Different developers can work on different listeners independently without conflicts.
 
-<!-- 1. User login
+1. User login
     - Install
         - composer require laravel/ui
         - php artisan ui bootstrap --auth
@@ -190,4 +205,8 @@
         - npm run build
         - npm run dev
         - composer dump-autoload
-        - php artisan optimize:clear -->
+        - php artisan optimize:clear
+
+1. Admin pannel
+    - php artisan db:seed ( Truncate User, Links , LinkHits tables)     
+

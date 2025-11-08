@@ -9,7 +9,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
 
-class StorelinksRequest extends FormRequest
+class StoreLinksRequest extends FormRequest
 {
     private int $maxLength = 0;
     public function __construct()

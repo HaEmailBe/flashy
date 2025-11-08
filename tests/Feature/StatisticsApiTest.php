@@ -64,7 +64,6 @@ class StatisticsApiTest extends TestCase
         $response->assertStatus(200)
             ->assertJsonFragment([
                 'success' => true,
-                'id' => 1,
                 'message' => 'Get statistics from the database',
                 'target_url' => $this->validTargetUrl,
                 'hits_count' => 20,
@@ -79,7 +78,6 @@ class StatisticsApiTest extends TestCase
         $response->assertStatus(200)
             ->assertJsonFragment([
                 'success' => true,
-                'id' => 1,
                 'message' => 'Get statistics from the cache',
                 'target_url' => $this->validTargetUrl,
                 'hits_count' => 20,

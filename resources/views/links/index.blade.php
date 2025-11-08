@@ -1,51 +1,55 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.main')
 
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+@section('title', 'Links App | All Links')
 
-    <title>My Contact</title>
-
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Varela+Round">
-    <!-- Bootstrap -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
-    <link href="assets/css/custom.css" rel="stylesheet">
-</head>
-
-<body>
-    <!-- navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light">
-        <div class="container">
-            <a class="navbar-brand text-uppercase" href="index.html">
-                <strong>Links</strong> App
-            </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-toggler"
-                aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <!-- /.navbar-header -->
-            <div class="collapse navbar-collapse" id="navbar-toggler">
-                <ul class="navbar-nav">
-                    <li class="nav-item active"><a href="#" class="nav-link">Links</a></li>
-                </ul>
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item mr-2"><a href="#" class="btn btn-outline-secondary">Login</a></li>
-                    <li class="nav-item"><a href="#" class="btn btn-outline-primary">Register</a></li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            John Doe
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <a class="dropdown-item" href="profile.html">Settings</a>
-                            <a class="dropdown-item" href="#">Logout</a>
+@section('content')
+    <main class="py-5">
+        <div class="container" style="max-width: 80%;">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header card-title">
+                            <div class="d-flex align-items-center">
+                                <h2 class="mb-0">All Links</h2>
+                                <div class="ms-auto">
+                                    <a href="{{ route('web.links.create') }}" class="btn btn-success"><i
+                                            class="fa fa-plus-circle"></i> Add New</a>
+                                </div>
+                            </div>
                         </div>
-                    </li>
-                </ul>
+                        <div class="card-body">
+                            @include('links._filter')
+                            <table class="table table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">ID</th>
+                                        <th scope="col">Slug</th>
+                                        <th scope="col">Total Hits</th>
+                                        <th scope="col">Target_URL</th>
+                                        <th scope="col">Active</th>
+                                        <th scope="col">Created at</th>
+                                        <th scope="col">Updated at</th>
+                                        <th scope="col">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @forelse ($links as $index => $link)
+                                        @include('links._link', [
+                                            'link' => $link,
+                                            'index' => $index,
+                                        ])
+                                    @empty
+                                        @include('links._empty')
+                                    @endforelse
+                                    {{-- @each('contacts._contact', $contacts, 'contact', 'contacts._empty') --}}
+                                </tbody>
+                            </table>
+                            {{ $links->withQueryString()->links('pagination::bootstrap-5') }}
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </nav>
+    </main>
+@endsection

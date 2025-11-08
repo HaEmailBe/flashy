@@ -8,7 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Cache;
-use App\Http\Requests\StorelinksRequest;
+use App\Http\Requests\StoreLinksRequest;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class LinksController extends Controller
 {
@@ -23,7 +24,7 @@ class LinksController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StorelinksRequest $request)
+    public function store(StoreLinksRequest $request)
     {
         $validated = $request->validated();
 
@@ -53,27 +54,45 @@ class LinksController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function update(Request $request)
     {
-        //
+        $slug = $request->input('slug');
+
+        try {
+            $link = Links::where('slug', $slug)->firstOrFail();
+
+            $link->is_active = !$link->is_active;
+
+            $key = ":link-{$link->slug}";
+
+            $link->save();
+
+            if( $link->is_active ) {
+                Cache::put(
+                $key,
+                [
+                    'id' => $link->id,
+                    'target_url' => $link->target_url
+                ],
+                null
+            );
+            } else {
+                Cache::forget($key);
+            }
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Link updated successfully',
+                'data' => $link
+            ], 200);
+        } catch (ModelNotFoundException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+            ], 404);
+        }
     }
 
     public function redirect(Request $request, $slug)

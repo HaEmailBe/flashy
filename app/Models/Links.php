@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\LinkHits;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Collection;
@@ -61,5 +62,14 @@ class Links extends Model
         }
 
         return 'xxx.xxx.xxx.xxx';
+    }
+
+    public function scopeFilterBySlug( Builder $query): Builder
+    {
+        if ( $slug = request()->query('slug') ) {
+            $query->where('slug','=', $slug);
+        }
+
+        return $query;
     }
 }

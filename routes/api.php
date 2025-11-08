@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::middleware(['api.key', 'throttle:api-key'])->group(function () {
+    Route::put('/links', [LinksController::class, 'update']);
+
     Route::apiResources([
         '/links' => LinksController::class
     ]);
@@ -14,4 +16,3 @@ Route::middleware(['api.key', 'throttle:api-key'])->group(function () {
 Route::get('/r/{slug}', [LinksController::class, 'redirect'])->name('slug.redirect');
 
 Route::get('/links/{slug}/stats', [LinksController::class, 'statistics'])->name('slug.statistics');
-

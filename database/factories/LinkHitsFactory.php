@@ -18,7 +18,7 @@ class LinkHitsFactory extends Factory
     public function definition(): array
     {
         return [
-            'link_id' => Links::pluck('id'),
+            'link_id' =>  Links::inRandomOrder()->first()->id,
             'ip' => $this->faker->unique()->ipv4(),
             'user_agent' => $this->faker->userAgent(),
         ];
