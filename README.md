@@ -150,7 +150,7 @@
             - URL: /links
             - Method: PUT
 
-        1. Response: - 200 - created [
+        1. Response: - 200 - OK [
               'success' => true,
               'message' => "Link updated successfully",
               'data' => $data
@@ -208,5 +208,6 @@
         - php artisan optimize:clear
 
 1. Admin pannel
-    - php artisan db:seed ( Truncate User, Links , LinkHits tables)     
+    - php artisan db:seed ( Truncate User, Links , LinkHits tables)   
 
+1. Homework assignment time estimate: ~35 hours
