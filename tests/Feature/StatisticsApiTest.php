@@ -12,9 +12,19 @@ class StatisticsApiTest extends TestCase
     use RefreshDatabase;
     private $validSlug = "aaa-bbb-ccc";
     private $validTargetUrl = "http://example.com";
-    /**
-     * A basic feature test example.
-     */
+    
+    protected function setUp(): void
+    {
+        parent::setUp();
+        
+        // Clear all cache
+        Cache::flush();
+        
+        // Or clear specific stores
+        Cache::store('redis')->flush();
+        Cache::store('array')->flush();
+    }
+    
     public function test_get_statistics_from_database_and_from_cache_by_slug(): void
     {
         $headers = [
