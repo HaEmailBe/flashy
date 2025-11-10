@@ -10,7 +10,7 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 
-class LinkApiStoreTest extends TestCase
+class LinkApiTest extends TestCase
 {
     use RefreshDatabase;
     private $validSlug = "aaa-bbb-ccc";
@@ -18,6 +18,18 @@ class LinkApiStoreTest extends TestCase
     private $inValidTargetUrl = "c://example.com";
     private $inValidApiKey = 'secret111';
     private $inValidIsActive = 2;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        
+        // Clear all cache
+        Cache::flush();
+        
+        // Or clear specific stores
+        Cache::store('redis')->flush();
+        Cache::store('array')->flush();
+    }
 
     public function test_create_a_link_successfully(): void
     {

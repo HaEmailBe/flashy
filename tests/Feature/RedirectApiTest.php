@@ -16,6 +16,18 @@ class RedirectApiTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+        
+        // Clear all cache
+        Cache::flush();
+        
+        // Or clear specific stores
+        Cache::store('redis')->flush();
+        Cache::store('array')->flush();
+    }
+
     private $validSlug = "aaa-bbb-ccc";
     private $validTargetUrl = "http://example.com";
 
