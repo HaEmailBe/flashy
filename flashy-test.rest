@@ -1,5 +1,5 @@
 
-@slug=wdwkqefnzszrfoeopdmciaodlhlmyigwxd1goaxhiwkziuejb
+@slug=aaa-bbb-ccc
 @id=1
 
 ###
@@ -26,7 +26,7 @@ Accept: application/json
 
 {
     "target_url": "https://klein.com/iste-doloribus-qui-ea.html",
-    "slug": "aaa-bbb-ccc2",
+    "slug": "aaa-bbb-ccc",
     "is_active": "0"
 }
 
@@ -48,6 +48,3 @@ GET {{hostname}}/api/links/{{slug}}/stats
 Content-Type: application/json
 User-Agent: Mozilla/5.0
 X-Api-Key: secret123
-
-
-
