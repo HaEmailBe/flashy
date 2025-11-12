@@ -1,0 +1,53 @@
+
+@slug=wdwkqefnzszrfoeopdmciaodlhlmyigwxd1goaxhiwkziuejb
+@id=1
+
+###
+GET https://ynet.co.il/
+
+###
+GET {{hostname}}/api/links
+User-Agent: Mozilla/5.0
+X-Api-Key: {{apiKey}}
+Accept: */*
+
+###
+GET {{hostname}}/api/links/{{id}}
+User-Agent: Mozilla/5.0
+X-Api-Key: secret123
+Accept: */*
+
+###
+POST {{hostname}}/api/links
+User-Agent: Mozilla/5.0
+X-Api-Key: secret123
+Content-Type: application/json
+Accept: application/json
+
+{
+    "target_url": "https://klein.com/iste-doloribus-qui-ea.html",
+    "slug": "aaa-bbb-ccc2",
+    "is_active": "0"
+}
+
+###
+PUT {{hostname}}/api/links?slug={{slug}}
+User-Agent: Mozilla/5.0
+X-Api-Key: secret123
+Content-Type: application/json
+Accept: application/json
+
+###
+GET {{hostname}}/api/r/{{slug}}
+User-Agent: Mozilla/5.0
+Content-Type: application/json
+X-Api-Key: secret123
+
+###
+GET {{hostname}}/api/links/{{slug}}/stats
+Content-Type: application/json
+User-Agent: Mozilla/5.0
+X-Api-Key: secret123
+
+
+
