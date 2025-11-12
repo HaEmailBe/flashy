@@ -18,7 +18,12 @@ class LinksController extends Controller
      */
     public function index()
     {
-        //
+        return Links::all();
+    }
+
+    public function show($id)
+    {
+        return Links::find($id);
     }
 
     /**
