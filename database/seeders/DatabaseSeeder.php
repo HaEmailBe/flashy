@@ -3,10 +3,11 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use App\Models\Links;
-use App\Models\LinkHits;
+
 use Illuminate\Database\Seeder;
+use Database\Seeders\LinksSeeder;
 use Illuminate\Support\Facades\DB;
+use Database\Seeders\LinkHitsSeeder;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
@@ -19,18 +20,20 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        Schema::disableForeignKeyConstraints();
         DB::table('users')->truncate();
+        DB::table('links')->truncate();
+        DB::table('link_hits')->truncate();
+        Schema::enableForeignKeyConstraints();
+
         User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
         ]);
 
-        Schema::disableForeignKeyConstraints();
-        Links::truncate();
-        LinkHits::truncate();
-        Schema::enableForeignKeyConstraints();
-
-        Links::factory(50)->create();
-        LinkHits::factory(400)->create();
+        $this->call([
+            LinksSeeder::class,
+            LinkHitsSeeder::class,
+        ]);
     }
 }

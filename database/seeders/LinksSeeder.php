@@ -2,8 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Links;
 use Illuminate\Database\Seeder;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class LinksSeeder extends Seeder
 {
@@ -12,6 +13,6 @@ class LinksSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        Links::factory(50)->create();
     }
 }

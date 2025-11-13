@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Links;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -10,6 +11,8 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class LinksFactory extends Factory
 {
+    protected $model = Links::class;
+
     /**
      * Define the model's default state.
      *

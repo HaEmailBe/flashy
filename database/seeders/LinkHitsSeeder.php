@@ -2,8 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\LinkHits;
 use Illuminate\Database\Seeder;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class LinkHitsSeeder extends Seeder
 {
@@ -12,6 +13,6 @@ class LinkHitsSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        LinkHits::factory(400)->create();
     }
 }

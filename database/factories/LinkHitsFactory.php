@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Links;
+use App\Models\LinkHits;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -10,6 +11,8 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class LinkHitsFactory extends Factory
 {
+    protected $model = LinkHits::class;
+
     /**
      * Define the model's default state.
      *
